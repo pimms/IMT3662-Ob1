@@ -45,15 +45,7 @@ public class GPSTracker extends Service implements LocationListener {
 		
 		if (!locSubscription) {
 			subscribeLocation();
-		}
-		
-		Location tmpLocation;
-		tmpLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		
-		if (tmpLocation != null) {
-			location = tmpLocation;
-		} else {
-			Log.e("DBG", "Last known location is null :(");
+			return null;
 		}
 		
 		return location;
@@ -68,7 +60,7 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	@Override
 	public void onLocationChanged(Location arg0) {
-		Log.e("DBG", "Location changed!!!!!!!!");
+		location = arg0;
 	}
 
 	@Override

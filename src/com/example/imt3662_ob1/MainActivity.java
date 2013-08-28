@@ -10,9 +10,12 @@ import android.widget.TextView;
 import android.app.*;
 import android.content.Context;
 
-public class MainActivity extends Activity {
+public class MainActivity 	extends Activity
+							implements 	CoordTransDelegate,
+										View.OnClickListener {
 	
 	GPSTracker gpsTracker;
+	private Button btnGetLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,35 +27,52 @@ public class MainActivity extends Activity {
         initButton();
     }
     
-    protected void initButton() {
-    	final Button button = (Button)findViewById(R.id.button_get_loc);
-    	final TextView tvLat = (TextView)findViewById(R.id.textViewLatitude);
-    	final TextView tvLon = (TextView)findViewById(R.id.textViewLongitude);
-    	
-    	button.setOnClickListener(new View.OnClickListener() {
-    		public void onClick(View v) {
-    			Location location = gpsTracker.getLocation();
-    			if (location == null) {
-    				return;
-    			}
-    			
-    			StringBuilder str = new StringBuilder();
-    			str.append(location.getLatitude());
-    			tvLat.setText(str.toString());
-    			
-    			str.delete(0, 100);
-    			str.append(location.getLongitude());
-    			tvLon.setText(str.toString());
-    		}
-    	});
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    /* Init methods
+     */
+    protected void initButton() {
+    	btnGetLocation = (Button)findViewById(R.id.button_get_loc);
+    	btnGetLocation.setOnClickListener(this);
+    }
+
     
+    /* View.OnClickListener interface implementation
+     */
+    public void onClick(View v) {
+    	if (v == btnGetLocation) {
+    		onGetAddressClick();
+    	}
+    }
+    
+    public void onGetAddressClick() {
+    	Location loc = gpsTracker.getLocation();
+    	if (loc != null) {
+    		new CoordTrans().translateLocation(loc, this);
+    	}
+    }
+    
+    /* CoordTransDelegate interface implementation
+     */
+    public void onAddressTranslateSuccess(String address) {
+    	Log.e("DBG", "Address: " + address);
+    	
+    	TextView tv = (TextView)findViewById(R.id.textViewAddress);
+    	tv.setText(address);
+    }
+    
+    public void onAddressTranslateFail(String errMsg) {
+    	Log.e("DBG", errMsg);
+    }
+    
+    /* Error message display
+     */
+    private void displayAlert(String title, String message) {
+    	Log.e(title, message);
+    }
 }

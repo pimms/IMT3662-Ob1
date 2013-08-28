@@ -9,49 +9,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button_get_loc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"
-        android:text="Get Location" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="29dp"
-        android:text="Latitude" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Your current address:" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/button_get_loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="18dp"
-        android:text="Longtitude" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Where the flipp am I?" />
 
     <TextView
-        android:id="@+id/textViewLatitude"
+        android:id="@+id/textViewAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView1"
+        android:layout_above="@+id/button_get_loc"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="34dp"
-        android:layout_toRightOf="@+id/textView1" />
-
-    <TextView
-        android:id="@+id/textViewLongitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/textViewLatitude"
-        android:layout_alignParentRight="true" />
+        android:layout_below="@+id/textView1"
+        android:gravity="top|center"
+        android:maxLines="10"
+        android:text="dunno lols"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="normal" />
 
 </RelativeLayout>
