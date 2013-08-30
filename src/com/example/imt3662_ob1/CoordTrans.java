@@ -6,17 +6,26 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import android.location.Location;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import org.json.*;
 
 public class CoordTrans {
+	public class Status {
+		final int SUCCESS = 1;
+		final int FAIL = 0;
+	}
+	Status status = new Status();
+	
+	
 	/* The address is translated via Google's geo-coding webAPI
 	 * in a background thread, and sent to the CoordinateT.
 	 * The background work is performed by an instance of "TranslateWorker".
 	 */
-	public void translateLocation(Location location, CoordTransDelegate callback) {
-		Thread t = new Thread(new TranslateWorker(location, callback));
+	public void translateLocation(Location location, Handler handler) {
+		Thread t = new Thread(new TranslateWorker(location, handler));
 		t.start();
 	}
 	
@@ -25,23 +34,28 @@ public class CoordTrans {
 	 */
 	private class TranslateWorker implements Runnable {
 		private Location location;
-		private CoordTransDelegate callback;
+		private Handler handler;
 		
-		public TranslateWorker(Location loc, CoordTransDelegate cb) {
+		public TranslateWorker(Location loc, Handler hnd) {
 			location = loc;
-			callback = cb;
+			handler = hnd;
 		}
 		
 		@Override
 		public void run() {
+			Message msg = handler.obtainMessage();
+			
 			String rawJson = getRawJson();
 			if (rawJson == null) {
-				callback.onAddressTranslateFail("Could not connect to googleapis.com");
-				return;
+				msg.what = 0;
+				msg.obj = "Could not connect to googleapis.com";
+			} else {
+				String result = getAddress(rawJson);
+				msg.what = 1;
+				msg.obj = result;
 			}
 			
-			String result = getAddress(rawJson);
-			callback.onAddressTranslateSuccess(result);
+			handler.sendMessage(msg);
 		}
 		
 		private String getAddress(String rawJson) {

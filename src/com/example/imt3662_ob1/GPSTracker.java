@@ -57,7 +57,6 @@ public class GPSTracker extends Service implements LocationListener {
 		locSubscription = true;
 	}
 	
-	
 	@Override
 	public void onLocationChanged(Location arg0) {
 		location = arg0;
@@ -67,20 +66,16 @@ public class GPSTracker extends Service implements LocationListener {
 	public void onProviderDisabled(String arg0) {
 		
 	}
-
 	@Override
 	public void onProviderEnabled(String arg0) {
 		
 	}
-
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		
 	}
-
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
 	}
-
 }

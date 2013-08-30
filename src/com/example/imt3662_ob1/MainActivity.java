@@ -2,6 +2,9 @@ package com.example.imt3662_ob1;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 import android.view.*;
@@ -11,11 +14,11 @@ import android.app.*;
 import android.content.Context;
 
 public class MainActivity 	extends Activity
-							implements 	CoordTransDelegate,
-										View.OnClickListener {
+							implements View.OnClickListener {
 	
 	GPSTracker gpsTracker;
 	private Button btnGetLocation;
+	private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,7 @@ public class MainActivity 	extends Activity
         gpsTracker = new GPSTracker(this);
         
         initButton();
+        initHandler();
     }
     
     @Override
@@ -40,6 +44,21 @@ public class MainActivity 	extends Activity
     	btnGetLocation = (Button)findViewById(R.id.button_get_loc);
     	btnGetLocation.setOnClickListener(this);
     }
+    
+	protected void initHandler() {
+    	handler = new Handler() {
+    		@Override
+    		public void handleMessage(Message msg) {
+    			String result = (String)msg.obj;
+    			if (msg.what == 0) {
+    				Log.e("DBG", result);
+    			} else if (msg.what == 1) {
+    				TextView tv = (TextView)findViewById(R.id.textViewAddress);
+    				tv.setText(result);
+    			}
+    		}
+    	};
+    }
 
     
     /* View.OnClickListener interface implementation
@@ -53,21 +72,10 @@ public class MainActivity 	extends Activity
     public void onGetAddressClick() {
     	Location loc = gpsTracker.getLocation();
     	if (loc != null) {
-    		new CoordTrans().translateLocation(loc, this);
+    		new CoordTrans().translateLocation(loc, handler);
+    	} else {
+    		displayAlert("Dunno", "I don't know where you are.");
     	}
-    }
-    
-    /* CoordTransDelegate interface implementation
-     */
-    public void onAddressTranslateSuccess(String address) {
-    	Log.e("DBG", "Address: " + address);
-    	
-    	TextView tv = (TextView)findViewById(R.id.textViewAddress);
-    	tv.setText(address);
-    }
-    
-    public void onAddressTranslateFail(String errMsg) {
-    	Log.e("DBG", errMsg);
     }
     
     /* Error message display
