@@ -34,7 +34,7 @@ public class GPSTracker extends Service implements LocationListener {
 		gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		netEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		
-		return (gpsEnabled && netEnabled);
+		return (gpsEnabled || netEnabled);
 	}
 	
 	public Location getLocation() {
@@ -53,7 +53,7 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	
 	private void subscribeLocation() {
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 10, this);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, this);
 		locSubscription = true;
 	}
 	

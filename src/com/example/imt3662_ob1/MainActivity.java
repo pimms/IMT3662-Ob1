@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.app.*;
 import android.content.Context;
+import android.content.Intent;
 
 public class MainActivity 	extends Activity
 							implements View.OnClickListener {
 	
 	GPSTracker gpsTracker;
 	private Button btnGetLocation;
+	private Button btnSeePositions;
 	private Handler handler;
 
     @Override
@@ -38,11 +40,15 @@ public class MainActivity 	extends Activity
         return true;
     }
 
-    /* Init methods
+    /* 
+     * Init methods
      */
     protected void initButton() {
     	btnGetLocation = (Button)findViewById(R.id.button_get_loc);
     	btnGetLocation.setOnClickListener(this);
+    	
+    	btnSeePositions = (Button)findViewById(R.id.button_see_history);
+    	btnSeePositions.setOnClickListener(this);
     }
     
 	protected void initHandler() {
@@ -61,15 +67,18 @@ public class MainActivity 	extends Activity
     }
 
     
-    /* View.OnClickListener interface implementation
+    /* 
+     * View.OnClickListener interface implementation
      */
     public void onClick(View v) {
     	if (v == btnGetLocation) {
     		onGetAddressClick();
+    	} else if (v == btnSeePositions) {
+    		onSeePositions();
     	}
     }
     
-    public void onGetAddressClick() {
+    protected void onGetAddressClick() {
     	Location loc = gpsTracker.getLocation();
     	if (loc != null) {
     		new CoordTrans().translateLocation(loc, handler);
@@ -78,7 +87,13 @@ public class MainActivity 	extends Activity
     	}
     }
     
-    /* Error message display
+    protected void onSeePositions() {
+    	Intent intent = new Intent(this, HistoryActivity.class);
+    	startActivity(intent);
+    }
+    
+    /* 
+     * Error message display
      */
     private void displayAlert(String title, String message) {
     	Log.e(title, message);
