@@ -17,17 +17,17 @@ import android.content.Intent;
 public class MainActivity 	extends Activity
 							implements View.OnClickListener {
 	
-	GPSTracker gpsTracker;
-	private Button btnGetLocation;
-	private Button btnSeePositions;
-	private Handler handler;
+	GPSTracker mGpsTracker;
+	private Button mBtnGetLocation;
+	private Button mBtnHistory;
+	private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        gpsTracker = new GPSTracker(this);
+        mGpsTracker = new GPSTracker(this);
         
         initButton();
         initHandler();
@@ -44,15 +44,16 @@ public class MainActivity 	extends Activity
      * Init methods
      */
     protected void initButton() {
-    	btnGetLocation = (Button)findViewById(R.id.button_get_loc);
-    	btnGetLocation.setOnClickListener(this);
+    	mBtnHistory = (Button)findViewById(R.id.button_get_loc);
+    	mBtnHistory.setOnClickListener(this);
     	
-    	btnSeePositions = (Button)findViewById(R.id.button_see_history);
-    	btnSeePositions.setOnClickListener(this);
+    	mBtnGetLocation = (Button)findViewById(R.id.button_see_history);
+    	mBtnGetLocation.setOnClickListener(this);
     }
     
+    @SuppressLint("HandlerLeak")
 	protected void initHandler() {
-    	handler = new Handler() {
+    	mHandler = new Handler() {
     		@Override
     		public void handleMessage(Message msg) {
     			String result = (String)msg.obj;
@@ -71,23 +72,23 @@ public class MainActivity 	extends Activity
      * View.OnClickListener interface implementation
      */
     public void onClick(View v) {
-    	if (v == btnGetLocation) {
+    	if (v == mBtnHistory) {
     		onGetAddressClick();
-    	} else if (v == btnSeePositions) {
-    		onSeePositions();
+    	} else if (v == mBtnGetLocation) {
+    		onDisplayHistory();
     	}
     }
     
     protected void onGetAddressClick() {
-    	Location loc = gpsTracker.getLocation();
+    	Location loc = mGpsTracker.getLocation();
     	if (loc != null) {
-    		new CoordTrans().translateLocation(loc, handler);
+    		new CoordTrans().translateLocation(loc, mHandler);
     	} else {
     		displayAlert("Dunno", "I don't know where you are.");
     	}
     }
     
-    protected void onSeePositions() {
+    protected void onDisplayHistory() {
     	Intent intent = new Intent(this, HistoryActivity.class);
     	startActivity(intent);
     }

@@ -25,7 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="HistoryActivity"></activity>
+        
+        <activity 
+            android:name="com.example.imt3662_ob1.HistoryActivity">
+        </activity>
     </application>
     
 </manifest>
