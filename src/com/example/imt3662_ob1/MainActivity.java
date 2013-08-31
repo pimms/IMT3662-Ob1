@@ -31,6 +31,9 @@ public class MainActivity 	extends Activity
         
         initButton();
         initHandler();
+        
+        DBHelper dbHelper = new DBHelper(this);
+        dbHelper.insertAddress("Bitches gots to GO");
     }
     
     @Override

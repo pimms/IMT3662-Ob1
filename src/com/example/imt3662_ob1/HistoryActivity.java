@@ -19,8 +19,14 @@ public class HistoryActivity extends ListActivity {
 	    adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
 	    setListAdapter(adapter);
 	    
-	    for (int i=0; i<25; i++) 
-	    	listItems.add("BITCHES NEEDS TO GO");
+	    // Add all the addresses
+	    DBHelper dbHelper = new DBHelper(this);
+	    ArrayList<String> addr = dbHelper.getAllAddresses();
+	    
+	    for (String str : addr) {
+	    	listItems.add(str);
+	    }
+	    
 	    adapter.notifyDataSetChanged();
 	}
 }
