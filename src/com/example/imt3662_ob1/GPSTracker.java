@@ -12,8 +12,7 @@ import android.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
 	
-	boolean gpsEnabled = false;
-	boolean netEnabled = false;
+	String mGpsProvider;
 	
 	LocationManager locationManager;
 	Location location;
@@ -31,10 +30,15 @@ public class GPSTracker extends Service implements LocationListener {
 	}
 	
 	public boolean servicesAvailable() {
-		gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		netEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			mGpsProvider = LocationManager.GPS_PROVIDER;
+		} else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			mGpsProvider = LocationManager.NETWORK_PROVIDER;
+		} else {
+			return false;
+		}
 		
-		return (gpsEnabled || netEnabled);
+		return true;
 	}
 	
 	public Location getLocation() {
@@ -53,7 +57,7 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	
 	private void subscribeLocation() {
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, this);
+		locationManager.requestLocationUpdates(mGpsProvider, 10000, 10, this);
 		locSubscription = true;
 	}
 	
