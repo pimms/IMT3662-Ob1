@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Context;
 import android.content.Intent;
 
 public class MainActivity 	extends Activity
-							implements View.OnClickListener {
+							implements  View.OnClickListener,
+										CoordTrans.CoordTransCallback {
 	
 	GPSTracker mGpsTracker;
 	private Button mBtnGetLocation;
@@ -26,11 +28,9 @@ public class MainActivity 	extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        mGpsTracker = new GPSTracker(this);
-        
         initButton();
-        initHandler();
         
+        mGpsTracker = new GPSTracker(this);
         mDbHelper = new DBHelper(this);
     }
     
@@ -52,31 +52,6 @@ public class MainActivity 	extends Activity
     	mBtnGetLocation.setOnClickListener(this);
     }
     
-    /*
-     * Handler for receival of translated
-     * GPS coordinates
-     */
-    @SuppressLint("HandlerLeak")
-	protected void initHandler() {
-    	final Context context = this;
-    	
-    	mHandler = new Handler() {
-    		@Override
-    		public void handleMessage(Message msg) {
-    			String result = (String)msg.obj;
-    			if (msg.what == CoordTrans.TRANSLATE_FAILURE) {
-    				Log.e("DBG", result);
-    			} else if (msg.what == CoordTrans.TRANSLATE_SUCCESS) {
-    				TextView tv = (TextView)findViewById(R.id.textViewAddress);
-    				tv.setText(result);
-    				
-    				DBHelper dbHelper = new DBHelper(context);
-    		        dbHelper.insertAddress("Bitches gots to GO");
-    			}
-    		}
-    	};
-    }
-
     
     /* 
      * View.OnClickListener interface implementation
@@ -92,7 +67,7 @@ public class MainActivity 	extends Activity
     protected void onGetAddressClick() {
     	Location loc = mGpsTracker.getLocation();
     	if (loc != null) {
-    		new CoordTrans().translateLocation(loc, mHandler);
+    		new CoordTrans(loc, this, this);
     	} else {
     		displayAlert("Dunno", "I don't know where you are.");
     	}
@@ -103,10 +78,28 @@ public class MainActivity 	extends Activity
     	startActivity(intent);
     }
     
+    /*
+     * CoordTrans.CoordTransCallback implementation
+     */
+    @Override
+	public void onTranslateCompleted(String result) {
+		TextView tv = (TextView)findViewById(R.id.textViewAddress);
+		tv.setText(result);
+		
+		mDbHelper.insertAddress(result);
+	}
+
+	@Override
+	public void onTranslateFailed(String errorMessage) {
+		displayAlert("Something went wrong", errorMessage);
+	}
+    
     /* 
      * Error message display
      */
     private void displayAlert(String title, String message) {
     	Log.e(title, message);
     }
+    
+	
 }
