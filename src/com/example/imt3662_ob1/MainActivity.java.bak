@@ -30,8 +30,11 @@ public class MainActivity 	extends Activity
         
         initButton();
         initHandler();
+<<<<<<< HEAD
+=======
         
         mDbHelper = new DBHelper(this);
+>>>>>>> 8b8c5d7f1d16e06e6330f4d06400b468547ebc38
     }
     
     @Override
@@ -70,8 +73,12 @@ public class MainActivity 	extends Activity
     				TextView tv = (TextView)findViewById(R.id.textViewAddress);
     				tv.setText(result);
     				
+<<<<<<< HEAD
     				DBHelper dbHelper = new DBHelper(context);
     		        dbHelper.insertAddress("Bitches gots to GO");
+=======
+    				mDbHelper.insertAddress(result);
+>>>>>>> 8b8c5d7f1d16e06e6330f4d06400b468547ebc38
     			}
     		}
     	};

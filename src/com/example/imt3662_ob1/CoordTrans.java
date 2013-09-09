@@ -13,15 +13,11 @@ import android.util.Log;
 import org.json.*;
 
 public class CoordTrans {
-	public class Status {
-		final int SUCCESS = 1;
-		final int FAIL = 0;
-	}
-	Status status = new Status();
+	public static final int TRANSLATE_FAILURE = 0;
+	public static final int TRANSLATE_SUCCESS = 1;
 	
 	
-	/* The address is translated via Google's geo-coding webAPI
-	 * in a background thread, and sent to the CoordinateT.
+	/* The address is translated via Google's geo-coding webAPI.
 	 * The background work is performed by an instance of "TranslateWorker".
 	 */
 	public void translateLocation(Location location, Handler handler) {
@@ -33,29 +29,29 @@ public class CoordTrans {
 	 * a human-readable street-address.
 	 */
 	private class TranslateWorker implements Runnable {
-		private Location location;
-		private Handler handler;
+		private Location mLocation;
+		private Handler mHandler;
 		
 		public TranslateWorker(Location loc, Handler hnd) {
-			location = loc;
-			handler = hnd;
+			mLocation = loc;
+			mHandler = hnd;
 		}
 		
 		@Override
 		public void run() {
-			Message msg = handler.obtainMessage();
+			Message msg = mHandler.obtainMessage();
 			
 			String rawJson = getRawJson();
 			if (rawJson == null) {
-				msg.what = 0;
+				msg.what = TRANSLATE_FAILURE;
 				msg.obj = "Could not connect to googleapis.com";
 			} else {
 				String result = getAddress(rawJson);
-				msg.what = 1;
+				msg.what = TRANSLATE_SUCCESS;
 				msg.obj = result;
 			}
 			
-			handler.sendMessage(msg);
+			mHandler.sendMessage(msg);
 		}
 		
 		private String getAddress(String rawJson) {
@@ -79,8 +75,8 @@ public class CoordTrans {
 		}
 		
 		private String getRawJson() {
-			double lat = location.getLatitude();
-			double lon = location.getLongitude();
+			double lat = mLocation.getLatitude();
+			double lon = mLocation.getLongitude();
 			
 			StringBuilder sb = new StringBuilder();
 			sb.append("http://maps.googleapis.com/maps/api/geocode/json?latlng=");

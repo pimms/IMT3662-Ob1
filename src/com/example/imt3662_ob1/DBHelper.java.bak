@@ -39,14 +39,7 @@ class DBHelper extends SQLiteOpenHelper {
 	}
 	
 	public void insertAddress(String address) {
-		Log.e("DBG", "Attempting to insert: " + address);
-		
-		final ContentValues values = new ContentValues();
-		values.put(COLUMN_ADDR, address);
-		
-		final SQLiteDatabase db = getWritableDatabase();
-		db.insert(TABLE_LOCATIONS, null, values);
-		db.close();
+
 	}
 	
 	public ArrayList<String> getAllAddresses() {
