@@ -10,8 +10,6 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
-import android.app.*;
-import android.content.Context;
 import android.content.Intent;
 
 public class MainActivity 	extends Activity

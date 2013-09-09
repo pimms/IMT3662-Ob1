@@ -13,15 +13,15 @@ import android.util.Log;
 public class GPSTracker extends Service implements LocationListener {
 	String mGpsProvider;
 	
-	LocationManager locationManager;
-	Location location;
+	LocationManager mLocationManager;
+	Location mLocation;
 	
-	private Context context;
-	private boolean locSubscription = false;
+	private Context mContext;
+	private boolean mLocSubscription = false;
 	
 	public GPSTracker(Context ctx) {
-		context = ctx;
-		locationManager = (LocationManager)context.getSystemService(LOCATION_SERVICE);
+		mContext = ctx;
+		mLocationManager = (LocationManager)mContext.getSystemService(LOCATION_SERVICE);
 		
 		if (servicesAvailable()) {
 			subscribeLocation();
@@ -31,9 +31,9 @@ public class GPSTracker extends Service implements LocationListener {
 	}
 	
 	public boolean servicesAvailable() {
-		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mGpsProvider = LocationManager.GPS_PROVIDER;
-		} else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+		} else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			mGpsProvider = LocationManager.NETWORK_PROVIDER;
 		} else {
 			return false;
@@ -48,19 +48,19 @@ public class GPSTracker extends Service implements LocationListener {
 			return null;
 		} 
 		
-		if (!locSubscription) {
+		if (!mLocSubscription) {
 			subscribeLocation();
 			return null;
 		}
 		
-		location = locationManager.getLastKnownLocation(mGpsProvider);
-		return location;
+		mLocation = mLocationManager.getLastKnownLocation(mGpsProvider);
+		return mLocation;
 	}
 	
 	
 	private void subscribeLocation() {
-		locationManager.requestLocationUpdates(mGpsProvider, 10000, 10, this);
-		locSubscription = true;
+		mLocationManager.requestLocationUpdates(mGpsProvider, 10000, 10, this);
+		mLocSubscription = true;
 	}
 	
 	@Override
