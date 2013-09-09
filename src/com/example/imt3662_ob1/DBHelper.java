@@ -56,14 +56,15 @@ class DBHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		/*
-		 * SELECT 'COLUMN_ADDR' FROM 'TABLE_LOCATIONS'
-		 * ORDER BY 'COLUMN_ID'
+		 * SELECT DISTINCT 'COLUMN_ADDR' FROM 'TABLE_LOCATIONS'
+		 * ORDER BY 'COLUMN_ID' DESC
 		 */
-		Cursor cursor = db.query(true, 
+		Cursor cursor = db.query(
+				true, 
 				TABLE_LOCATIONS, 
 				new String[] { COLUMN_ADDR }, 
 				null, 
-				null, null, null, COLUMN_ID, null, null);
+				null, null, null, COLUMN_ID + " DESC", null, null);
 		
 		ArrayList<String> results = new ArrayList<String>();
 		

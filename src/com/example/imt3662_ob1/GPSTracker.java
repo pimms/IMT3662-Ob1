@@ -11,7 +11,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
-	
 	String mGpsProvider;
 	
 	LocationManager locationManager;
@@ -54,6 +53,7 @@ public class GPSTracker extends Service implements LocationListener {
 			return null;
 		}
 		
+		location = locationManager.getLastKnownLocation(mGpsProvider);
 		return location;
 	}
 	
@@ -65,7 +65,7 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	@Override
 	public void onLocationChanged(Location arg0) {
-		location = arg0;
+		
 	}
 
 	@Override

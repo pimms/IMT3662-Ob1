@@ -21,6 +21,7 @@ public class MainActivity 	extends Activity
 	private Button mBtnGetLocation;
 	private Button mBtnHistory;
 	private Handler mHandler;
+	private DBHelper mDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,7 @@ public class MainActivity 	extends Activity
         initButton();
         initHandler();
         
-        DBHelper dbHelper = new DBHelper(this);
-        dbHelper.insertAddress("Bitches gots to GO AWAY");
+        mDbHelper = new DBHelper(this);
     }
     
     @Override
@@ -54,17 +54,23 @@ public class MainActivity 	extends Activity
     	mBtnGetLocation.setOnClickListener(this);
     }
     
+    /*
+     * Handler for receival of translated
+     * GPS coordinates
+     */
     @SuppressLint("HandlerLeak")
 	protected void initHandler() {
     	mHandler = new Handler() {
     		@Override
     		public void handleMessage(Message msg) {
     			String result = (String)msg.obj;
-    			if (msg.what == 0) {
+    			if (msg.what == CoordTrans.TRANSLATE_FAILURE) {
     				Log.e("DBG", result);
-    			} else if (msg.what == 1) {
+    			} else if (msg.what == CoordTrans.TRANSLATE_SUCCESS) {
     				TextView tv = (TextView)findViewById(R.id.textViewAddress);
     				tv.setText(result);
+    				
+    				mDbHelper.insertAddress(result);
     			}
     		}
     	};

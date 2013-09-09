@@ -13,11 +13,8 @@ import android.util.Log;
 import org.json.*;
 
 public class CoordTrans {
-	public class Status {
-		final int SUCCESS = 1;
-		final int FAIL = 0;
-	}
-	Status status = new Status();
+	public static final int TRANSLATE_FAILURE = 0;
+	public static final int TRANSLATE_SUCCESS = 1;
 	
 	
 	/* The address is translated via Google's geo-coding webAPI
@@ -47,11 +44,11 @@ public class CoordTrans {
 			
 			String rawJson = getRawJson();
 			if (rawJson == null) {
-				msg.what = 0;
+				msg.what = TRANSLATE_FAILURE;
 				msg.obj = "Could not connect to googleapis.com";
 			} else {
 				String result = getAddress(rawJson);
-				msg.what = 1;
+				msg.what = TRANSLATE_SUCCESS;
 				msg.obj = result;
 			}
 			
