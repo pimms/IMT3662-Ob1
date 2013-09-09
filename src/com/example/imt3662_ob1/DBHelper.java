@@ -47,7 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 	
 	public void insertAddress(String address) {
-		mStmtInsert.bindString(0, address);
+		mStmtInsert.bindString(1, address);
 		mStmtInsert.execute();
 		mStmtInsert.clearBindings();
 	}

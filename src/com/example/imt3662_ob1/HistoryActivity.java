@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 public class HistoryActivity extends ListActivity {
@@ -22,6 +23,8 @@ public class HistoryActivity extends ListActivity {
 	    // Add all the addresses
 	    DBHelper dbHelper = new DBHelper(this);
 	    ArrayList<String> addr = dbHelper.getAllAddresses();
+	    
+	    Log.d("DBG", addr.size() + " addresses!");
 	    
 	    for (String str : addr) {
 	    	listItems.add(str);

@@ -31,9 +31,6 @@ public class MainActivity 	extends Activity
         
         initButton();
         initHandler();
-        
-        DBHelper dbHelper = new DBHelper(this);
-        dbHelper.insertAddress("Bitches gots to GO");
     }
     
     @Override
@@ -56,6 +53,8 @@ public class MainActivity 	extends Activity
     
     @SuppressLint("HandlerLeak")
 	protected void initHandler() {
+    	final Context context = this;
+    	
     	mHandler = new Handler() {
     		@Override
     		public void handleMessage(Message msg) {
@@ -65,6 +64,9 @@ public class MainActivity 	extends Activity
     			} else if (msg.what == 1) {
     				TextView tv = (TextView)findViewById(R.id.textViewAddress);
     				tv.setText(result);
+    				
+    				DBHelper dbHelper = new DBHelper(context);
+    		        dbHelper.insertAddress("Bitches gots to GO");
     			}
     		}
     	};
