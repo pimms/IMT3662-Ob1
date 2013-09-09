@@ -33,7 +33,7 @@ public class MainActivity 	extends Activity
         initHandler();
         
         DBHelper dbHelper = new DBHelper(this);
-        dbHelper.insertAddress("Bitches gots to GO");
+        dbHelper.insertAddress("Bitches gots to GO AWAY");
     }
     
     @Override

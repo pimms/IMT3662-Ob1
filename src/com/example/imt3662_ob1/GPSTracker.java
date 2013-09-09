@@ -26,6 +26,8 @@ public class GPSTracker extends Service implements LocationListener {
 		
 		if (servicesAvailable()) {
 			subscribeLocation();
+		} else {
+			Log.d("DBG", "GPS services are not available :(\n");
 		}
 	}
 	
