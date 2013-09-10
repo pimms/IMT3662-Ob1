@@ -1,6 +1,8 @@
 package com.example.imt3662_ob1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -49,27 +51,26 @@ class DBHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 	
-	public ArrayList<String> getAllAddresses() {
+	public HashMap<String, Integer> getAddressesAndVisitCount() {
 		SQLiteDatabase db = getReadableDatabase();
 		
 		/*
-		 * SELECT DISTINCT 'COLUMN_ADDR' 
+		 * SELECT 'COLUMN_ADDR', COUNT(*) 
 		 * FROM 'TABLE_LOCATIONS'
-		 * ORDER BY 'COLUMN_ID' DESC
+		 * GROUP BY 'COLUMN_ADDR' 
 		 */
 		Cursor cursor = db.query(
-				true, TABLE_LOCATIONS, new String[] { COLUMN_ADDR }, 
-				null, null, null, null, COLUMN_ID + " DESC", null, null);
+				false, TABLE_LOCATIONS, new String[] { COLUMN_ADDR, "COUNT(*)" }, 
+				null, null, COLUMN_ADDR, null, COLUMN_ID + " DESC", null, null);
 		
-		ArrayList<String> results = new ArrayList<String>();
+		HashMap<String, Integer> results = new HashMap<String, Integer>(); 
 		
 		if (cursor == null || !cursor.moveToFirst()) {
 			return results;
 		}
 		
 		while (!cursor.isAfterLast()) {
-			String addr = cursor.getString(0);
-			results.add(addr);
+			results.put(cursor.getString(0), cursor.getInt(1));
 			cursor.moveToNext();
 		}
 		

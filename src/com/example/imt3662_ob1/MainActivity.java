@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.*;
 import android.widget.Button;
@@ -67,9 +68,10 @@ public class MainActivity 	extends Activity
     protected void onGetAddressClick() {
     	Location loc = mGpsTracker.getLocation();
     	if (loc != null) {
-    		new CoordTrans(loc, this, this);
+    		CoordTrans coordinateTranslator = new CoordTrans(loc, this, this);
+    		coordinateTranslator.execute();
     	} else {
-    		displayAlert("Dunno", "I don't know where you are.");
+    		displayAlert("Dunno", "Unable to retrieve your GPS coordinates");
     	}
     }
     
@@ -98,7 +100,12 @@ public class MainActivity 	extends Activity
      * Error message display
      */
     private void displayAlert(String title, String message) {
-    	Log.e(title, message);
+    	new AlertDialog.Builder(this)
+    		.setTitle(title)
+    		.setMessage(message)
+    		.setPositiveButton("Ok", null)
+    		.show();
+    		
     }
     
 	

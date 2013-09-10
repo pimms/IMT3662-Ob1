@@ -17,7 +17,9 @@ public class GPSTracker extends Service implements LocationListener {
 	Location mLocation;
 	
 	private Context mContext;
-	private boolean mLocSubscription = false;
+	
+	// Have the application registered for GPS updates?
+	private boolean mLocSubscription;
 	
 	public GPSTracker(Context ctx) {
 		mContext = ctx;
@@ -30,12 +32,18 @@ public class GPSTracker extends Service implements LocationListener {
 		}
 	}
 	
+	/*
+	 * Check if GPS services are available through either the GPS provider
+	 * or the network provider. 
+	 * 'mLocSubscription' is set to false if no provider is available.
+	 */
 	public boolean servicesAvailable() {
 		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mGpsProvider = LocationManager.GPS_PROVIDER;
 		} else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			mGpsProvider = LocationManager.NETWORK_PROVIDER;
 		} else {
+			mLocSubscription = false;
 			return false;
 		}
 		
@@ -53,7 +61,13 @@ public class GPSTracker extends Service implements LocationListener {
 			return null;
 		}
 		
-		mLocation = mLocationManager.getLastKnownLocation(mGpsProvider);
+		Location tmpLocation = mLocationManager.getLastKnownLocation(mGpsProvider);
+		if (tmpLocation != null) {
+			mLocation = tmpLocation;
+		} else {
+			Log.e("DBG", "Last known location is null (" + mGpsProvider + ")");
+		}
+		
 		return mLocation;
 	}
 	
@@ -65,21 +79,27 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	@Override
 	public void onLocationChanged(Location arg0) {
-		
+		Log.d("DBG", "Location changed!");
 	}
 
 	@Override
 	public void onProviderDisabled(String arg0) {
-		
+		Log.d("DBG", "Provider disabled: " + arg0);
+		mGpsProvider = null;
+		mLocSubscription = false;
 	}
+	
 	@Override
 	public void onProviderEnabled(String arg0) {
-		
+		Log.d("DBG", "Provider enabled: " + arg0);
+		mGpsProvider = arg0;
 	}
+	
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		
 	}
+	
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -26,7 +27,7 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 	private Location mLocation;
 	private CoordTransCallback mCallback;
 	private Context mContext;
-	private ProgressBar mProgressBar;
+	private ProgressDialog mProgress;
 	
 	
 	public CoordTrans(Location location, CoordTransCallback callback, Context context) {
@@ -39,9 +40,11 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 	
 	@Override
 	protected void onPreExecute() {
-		mProgressBar = new ProgressBar(mContext);
-		mProgressBar.setIndeterminate(true);
-		mProgressBar.setVisibility(View.VISIBLE);
+		mProgress = new ProgressDialog(mContext);
+		mProgress.setIndeterminate(true);
+		mProgress.setTitle("Please wait");
+		mProgress.setMessage("Getting address...");
+		mProgress.show();
 	}
 	
 	@Override
@@ -64,7 +67,7 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 			mCallback.onTranslateCompleted(result);
 		}
 		
-		mProgressBar.setVisibility(View.INVISIBLE);
+		mProgress.hide();
 	}
 	
 	
