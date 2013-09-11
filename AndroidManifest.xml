@@ -8,9 +8,15 @@
         android:minSdkVersion="16"
         android:targetSdkVersion="17" />
 
+    <!-- GPS and Internet connection permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     
+    <!-- Google Maps v2 permissions -->
+    <uses-permission android:name="com.vogella.android.locationapi.maps.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -25,9 +31,12 @@
             </intent-filter>
         </activity>
         
-        <activity 
-            android:name="com.example.imt3662_ob1.HistoryActivity">
-        </activity>
+        <activity android:name="com.example.imt3662_ob1.ListHistoryActivity" ></activity>
+        <activity android:name="com.example.imt3662_ob1.MapHistoryActivity" ></activity>
+        
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAGope1ruWvUWOBkSsEuLXrtn8To4mRlLU" />
     </application>
-    
+
 </manifest>

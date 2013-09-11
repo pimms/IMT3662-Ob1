@@ -20,7 +20,6 @@ public class MainActivity 	extends Activity
 	
 	GPSTracker mGpsTracker;
 	private Button mBtnGetLocation;
-	private Button mBtnHistory;
 	private Handler mHandler;
 	private DBHelper mDbHelper;
 
@@ -41,15 +40,37 @@ public class MainActivity 	extends Activity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) {
+    	case R.id.menu_main_list:
+    		displayHistoryList();
+    		break;
+    		
+    	case R.id.menu_main_map:
+    		displayHistoryMap();
+    		break;
+    	}
+    	
+    	return false;
+    }
+    
+    protected void displayHistoryList() {
+    	Intent intent = new Intent(this, ListHistoryActivity.class);
+    	startActivity(intent);
+    }
+    
+    protected void displayHistoryMap() {
+    	Intent intent = new Intent(this, MapHistoryActivity.class);
+    	startActivity(intent);
+    }
 
     /* 
      * Init methods
      */
     protected void initButton() {
-    	mBtnHistory = (Button)findViewById(R.id.button_get_loc);
-    	mBtnHistory.setOnClickListener(this);
-    	
-    	mBtnGetLocation = (Button)findViewById(R.id.button_see_history);
+    	mBtnGetLocation = (Button)findViewById(R.id.button_get_loc);
     	mBtnGetLocation.setOnClickListener(this);
     }
     
@@ -58,10 +79,8 @@ public class MainActivity 	extends Activity
      * View.OnClickListener interface implementation
      */
     public void onClick(View v) {
-    	if (v == mBtnHistory) {
+    	if (v == mBtnGetLocation) {
     		onGetAddressClick();
-    	} else if (v == mBtnGetLocation) {
-    		onDisplayHistory();
     	}
     }
     
@@ -75,20 +94,15 @@ public class MainActivity 	extends Activity
     	}
     }
     
-    protected void onDisplayHistory() {
-    	Intent intent = new Intent(this, HistoryActivity.class);
-    	startActivity(intent);
-    }
-    
     /*
      * CoordTrans.CoordTransCallback implementation
      */
     @Override
-	public void onTranslateCompleted(String result) {
+	public void onTranslateCompleted(String result, Location location) {
 		TextView tv = (TextView)findViewById(R.id.textViewAddress);
 		tv.setText(result);
 		
-		mDbHelper.insertAddress(result);
+		mDbHelper.insertAddress(result, location);
 	}
 
 	@Override

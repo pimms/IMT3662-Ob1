@@ -28,7 +28,7 @@
         android:layout_below="@+id/textView1"
         android:gravity="top|center"
         android:maxLines="10"
-        android:text="dunno lols"
+        android:text="I don&apos;t know.\nLet&apos;s find out!\nTOGETHER :D"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="normal" />
 
@@ -38,16 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="106dp"
-        android:text="Where the flipp am I?" />
-
-    <Button
-        android:id="@+id/button_see_history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="52dp"
-        android:text="LIKE I GIVE A FUCK" />
+        android:layout_marginBottom="58dp"
+        android:text="Let&apos;s find out and be friends forever!" />
 
 </RelativeLayout>

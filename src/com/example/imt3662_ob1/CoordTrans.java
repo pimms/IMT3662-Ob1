@@ -17,7 +17,7 @@ import org.json.*;
 
 public class CoordTrans extends AsyncTask<Void, Void, String> {
 	public interface CoordTransCallback {
-		void onTranslateCompleted(String address);
+		void onTranslateCompleted(String address, Location location);
 		void onTranslateFailed(String errorMessage);
 	}
 	
@@ -64,7 +64,7 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 			// Distinguish between possible errors
 			mCallback.onTranslateFailed("Unknown error");
 		} else {
-			mCallback.onTranslateCompleted(result);
+			mCallback.onTranslateCompleted(result, mLocation);
 		}
 		
 		mProgress.hide();
