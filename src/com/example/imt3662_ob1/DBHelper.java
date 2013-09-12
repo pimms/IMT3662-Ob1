@@ -13,6 +13,7 @@ import android.location.Location;
 import android.util.Log;
 
 class DBHelper extends SQLiteOpenHelper {
+	private static final String TAG = "DBHelper";
 	
 	public static final String TABLE_LOCATIONS = "locations";
 	public static final String COLUMN_ID = "id";
@@ -47,8 +48,8 @@ class DBHelper extends SQLiteOpenHelper {
 		
 	}
 	
-	public void insertAddress(String address, Location location) {
-		Log.e("DBG", "Attempting to insert: " + address);
+	public long insertAddress(String address, Location location) {
+		Log.i(TAG, "Attempting to insert address: " + address);
 		
 		final ContentValues values = new ContentValues();
 		values.put(COLUMN_ADDR, address);
@@ -56,12 +57,14 @@ class DBHelper extends SQLiteOpenHelper {
 		values.put(COLUMN_LON, location.getLongitude());
 		
 		final SQLiteDatabase db = getWritableDatabase();
-		long status = db.insert(TABLE_LOCATIONS, null, values);
+		long insertId = db.insert(TABLE_LOCATIONS, null, values);
 		db.close();
 		
-		if (status == -1) {
-			Log.e("DBG", "Failed to insert to database!");
+		if (insertId == -1) {
+			Log.e(TAG, "Failed to insert to database!");
 		}
+		
+		return insertId;
 	}
 	
 	public List<AddressRecord> getAddressRecords() {

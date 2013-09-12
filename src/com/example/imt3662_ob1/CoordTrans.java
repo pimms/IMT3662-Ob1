@@ -16,6 +16,8 @@ import android.widget.*;
 import org.json.*;
 
 public class CoordTrans extends AsyncTask<Void, Void, String> {
+	private static final String TAG = "CoordTrans";
+	
 	public interface CoordTransCallback {
 		void onTranslateCompleted(String address, Location location);
 		void onTranslateFailed(String errorMessage);
@@ -50,11 +52,13 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 	@Override
 	protected String doInBackground(Void... params) {
 		String rawJson = getRawJson();
+		
 		if (rawJson == null) {
+			Log.e(TAG, "Failed to contact googleapis.com");
 			return null;
 		}
 		
-		return  getAddress(rawJson);
+		return getAddress(rawJson);
 	}
 	
 	@Override
@@ -69,6 +73,7 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 		
 		mProgress.hide();
 	}
+	
 	
 	
 	private String getAddress(String rawJson) {
@@ -113,9 +118,10 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 				line = br.readLine();
 			}
 		} catch (IOException e) {
-			Log.e("DBG", e.getMessage());
+			Log.e(TAG, e.getMessage());
 		}
 		
+		Log.i(TAG, "Successfully retrieved address information");
 		return content.toString();
 	}
 

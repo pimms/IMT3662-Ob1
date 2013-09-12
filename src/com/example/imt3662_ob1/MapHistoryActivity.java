@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapHistoryActivity extends FragmentActivity {
+public class MapHistoryActivity extends Activity {
 	
 	private GoogleMap map;
 

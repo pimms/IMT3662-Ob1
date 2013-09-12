@@ -11,6 +11,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
+	private static final String TAG = "GPSTracker";
+	
 	String mGpsProvider;
 	
 	LocationManager mLocationManager;
@@ -28,7 +30,7 @@ public class GPSTracker extends Service implements LocationListener {
 		if (servicesAvailable()) {
 			subscribeLocation();
 		} else {
-			Log.d("DBG", "GPS services are not available :(\n");
+			Log.e("DBG", "GPS services are not available");
 		}
 	}
 	
@@ -43,16 +45,21 @@ public class GPSTracker extends Service implements LocationListener {
 		} else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			mGpsProvider = LocationManager.NETWORK_PROVIDER;
 		} else {
-			mLocSubscription = false;
+			if (mLocSubscription) {
+				mLocSubscription = false;
+				mLocationManager.removeUpdates(this);
+			}
+			
 			return false;
 		}
+		
 		
 		return true;
 	}
 	
 	public Location getLocation() {
 		if (!servicesAvailable()) {
-			Log.e("DBG", "GPS Services unavailable :(");
+			Log.e(TAG, "GPS Services are unavailable");
 			return null;
 		} 
 		
@@ -65,7 +72,7 @@ public class GPSTracker extends Service implements LocationListener {
 		if (tmpLocation != null) {
 			mLocation = tmpLocation;
 		} else {
-			Log.e("DBG", "Last known location is null (" + mGpsProvider + ")");
+			Log.d(TAG, "Last known location is null (" + mGpsProvider + ")");
 		}
 		
 		return mLocation;
@@ -79,19 +86,19 @@ public class GPSTracker extends Service implements LocationListener {
 	
 	@Override
 	public void onLocationChanged(Location arg0) {
-		Log.d("DBG", "Location changed!");
+		Log.d(TAG, "Location changed!");
 	}
 
 	@Override
 	public void onProviderDisabled(String arg0) {
-		Log.d("DBG", "Provider disabled: " + arg0);
+		Log.d(TAG, "Provider disabled: " + arg0);
 		mGpsProvider = null;
 		mLocSubscription = false;
 	}
 	
 	@Override
 	public void onProviderEnabled(String arg0) {
-		Log.d("DBG", "Provider enabled: " + arg0);
+		Log.d(TAG, "Provider enabled: " + arg0);
 		mGpsProvider = arg0;
 	}
 	
