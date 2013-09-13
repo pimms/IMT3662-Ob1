@@ -1,4 +1,4 @@
-package com.example.imt3662_ob1;
+package pimms.oblig1;
 
 import android.app.Service;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.imt3662_ob1;
+package pimms.oblig1;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.support.v4.app.*;
 
+import pimms.oblig1.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
