@@ -10,8 +10,6 @@ import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.*;
 
 import org.json.*;
 

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +20,6 @@ public class MainActivity 	extends Activity
 	
 	GPSTracker mGpsTracker;
 	private Button mBtnGetLocation;
-	private Handler mHandler;
 	private DBHelper mDbHelper;
 	
 	private String mCurrentAddress;
