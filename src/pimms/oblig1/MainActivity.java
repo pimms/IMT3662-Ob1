@@ -17,11 +17,15 @@ import android.widget.TextView;
 public class MainActivity 	extends Activity
 							implements  View.OnClickListener,
 										CoordTrans.CoordTransCallback {
+	private static final String BUNDLE_CURRENT_ADDRESS = "currentAddress";
 	
 	GPSTracker mGpsTracker;
 	private Button mBtnGetLocation;
 	private Handler mHandler;
 	private DBHelper mDbHelper;
+	
+	private String mCurrentAddress;
+	private TextView mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,23 @@ public class MainActivity 	extends Activity
         
         initButton();
         
+        mTextView = (TextView)findViewById(R.id.textViewAddress);
         mGpsTracker = new GPSTracker(this);
         mDbHelper = new DBHelper(this);
+        
+        if (savedInstanceState != null) {
+        	mCurrentAddress = savedInstanceState.getString(BUNDLE_CURRENT_ADDRESS);
+        	if (mCurrentAddress != null) {
+        		mTextView.setText(mCurrentAddress);
+        	}
+        }
+    }
+    
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+    	super.onSaveInstanceState(state);
+    	
+    	state.putString(BUNDLE_CURRENT_ADDRESS, mCurrentAddress);
     }
     
     @Override
@@ -74,7 +93,6 @@ public class MainActivity 	extends Activity
     	mBtnGetLocation.setOnClickListener(this);
     }
     
-    
     /* 
      * View.OnClickListener interface implementation
      */
@@ -99,9 +117,8 @@ public class MainActivity 	extends Activity
      */
     @Override
 	public void onTranslateCompleted(String result, Location location) {
-		TextView tv = (TextView)findViewById(R.id.textViewAddress);
-		tv.setText(result);
-		
+    	mCurrentAddress = result;
+		mTextView.setText(result);
 		mDbHelper.insertAddress(result, location);
 	}
 
