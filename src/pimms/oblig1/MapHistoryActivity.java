@@ -1,4 +1,4 @@
-package com.example.imt3662_ob1;
+package pimms.oblig1;
 
 import java.util.List;
 
@@ -29,13 +29,17 @@ public class MapHistoryActivity extends Activity {
 		DBHelper dbHelper = new DBHelper(this);
 		List<AddressRecord> records = dbHelper.getAddressRecords();
 		
-		Marker dest = null;
-		for (AddressRecord record : records) {
-			dest = markAddressRecord(record);
-		}
-		
-		if (dest != null) {
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(dest.getPosition(), 15));
+		if (records.size() != 0) {
+			double avgLat = 0;
+			double avgLon = 0;
+			for (AddressRecord record : records) {
+				markAddressRecord(record);
+				avgLat += record.getLatitude() / records.size();
+				avgLon += record.getLongitude() / records.size();
+			}
+			
+			LatLng avgPos = new LatLng(avgLat, avgLon);
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(avgPos, 15));
 		}
 	}
 
@@ -46,14 +50,10 @@ public class MapHistoryActivity extends Activity {
 	
 	
 	private Marker markAddressRecord(AddressRecord record) {
-		LatLng coord = addressRecordToLatLng(record);
+		LatLng coord = record.getCoordinates();
 		Marker marker = map.addMarker(new MarkerOptions().position(coord));
+		marker.setTitle(record.getMarkerTitle());
 		
 		return marker;
-	}
-	
-	private LatLng addressRecordToLatLng(AddressRecord record) {
-		LatLng coord = new LatLng(record.getLatitude(), record.getLongitude());
-		return coord;
 	}
 }

@@ -1,4 +1,6 @@
-package com.example.imt3662_ob1;
+package pimms.oblig1;
+
+import com.google.android.gms.maps.model.LatLng;
 
 public class AddressRecord {
 	private String mAddress;
@@ -27,5 +29,24 @@ public class AddressRecord {
 	
 	public double getLongitude() {
 		return mLongitude;
+	}
+	
+	public LatLng getCoordinates() {
+		LatLng coord = new LatLng(mLatitude, mLongitude);
+		return coord;
+	}
+	
+	/*
+	 * Return a string on the following format:
+	 * 		"ADDRESS (X visits)"
+	 */
+	public String getMarkerTitle() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(mAddress);
+		sb.append(" (");
+		sb.append(mVisitCount);
+		sb.append(" visits)");
+		
+		return sb.toString();
 	}
 }

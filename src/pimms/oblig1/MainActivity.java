@@ -1,18 +1,18 @@
-package com.example.imt3662_ob1;
+package pimms.oblig1;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.util.Log;
-import android.view.*;
+import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.content.Context;
-import android.content.Intent;
 
 public class MainActivity 	extends Activity
 							implements  View.OnClickListener,
@@ -90,7 +90,7 @@ public class MainActivity 	extends Activity
     		CoordTrans coordinateTranslator = new CoordTrans(loc, this, this);
     		coordinateTranslator.execute();
     	} else {
-    		displayAlert("Dunno", "Unable to retrieve your GPS coordinates");
+    		displayGpsSettingsPrompt();
     	}
     }
     
@@ -122,5 +122,22 @@ public class MainActivity 	extends Activity
     		
     }
     
-	
+	private void displayGpsSettingsPrompt() {
+		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+		
+		alertDialog.setTitle("GPS is disabled");
+		alertDialog.setMessage("GPS or Mobile Network must be enabled.");
+		
+		alertDialog.setPositiveButton("Settings" , new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(intent);
+			}
+		});
+		
+		alertDialog.setNegativeButton("Cancel", null);
+		
+		alertDialog.show();
+	}
 }
