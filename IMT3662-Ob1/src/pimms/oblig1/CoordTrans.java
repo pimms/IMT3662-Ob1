@@ -28,6 +28,7 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 	private CoordTransCallback mCallback;
 	private Context mContext;
 	private ProgressDialog mProgress;
+	private String mErrorMessage = "Unknown error";
 	
 	
 	public CoordTrans(Location location, CoordTransCallback callback, Context context) {
@@ -44,6 +45,10 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 		mProgress.setIndeterminate(true);
 		mProgress.setTitle("Please wait");
 		mProgress.setMessage("Getting address...");
+		
+		mProgress.setCanceledOnTouchOutside(false);
+		mProgress.setCancelable(false);
+		
 		mProgress.show();
 	}
 	
@@ -62,9 +67,7 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		if (result == null) {
-			// TODO:
-			// Distinguish between possible errors
-			mCallback.onTranslateFailed("Unknown error");
+			mCallback.onTranslateFailed(mErrorMessage);
 		} else {
 			mCallback.onTranslateCompleted(result, mLocation);
 		}
@@ -90,6 +93,8 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 				return null;
 			}
 		} catch (JSONException e) {
+			mErrorMessage = "Unable to recognize googleapis content as " 
+						  + "valid JSON.";
 			return null;
 		}
 	}
@@ -117,6 +122,9 @@ public class CoordTrans extends AsyncTask<Void, Void, String> {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage());
+			
+			mErrorMessage = "Failed to connect to googleapis.com";
+			return null;
 		}
 		
 		Log.i(TAG, "Successfully retrieved address information");

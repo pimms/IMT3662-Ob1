@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.util.Log;
 
-class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 	private static final String TAG = "DBHelper";
 	
 	public static final String TABLE_LOCATIONS = "locations";
@@ -39,6 +39,7 @@ class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
+		Log.d(TAG, "Creating table!");
 		database.execSQL(DB_CREATE);
 	}
 
@@ -67,7 +68,7 @@ class DBHelper extends SQLiteOpenHelper {
 	}
 	
 	public List<AddressRecord> getAddressRecords() {
-		SQLiteDatabase db = getReadableDatabase();
+		SQLiteDatabase db = getWritableDatabase();
 		
 		/*
 		 * SELECT 'COLUMN_ADDR', 'COLUMN_LAT', 'COLUMN_LON', COUNT(*) 
@@ -88,9 +89,12 @@ class DBHelper extends SQLiteOpenHelper {
 		
 		List<AddressRecord> results = new ArrayList<AddressRecord>();
 		
-		if (cursor == null || !cursor.moveToFirst()) {
+		if (cursor == null) {
+			Log.e(TAG, "The returned cursor is null");
 			return results;
 		}
+		
+		cursor.moveToFirst();
 		
 		while (!cursor.isAfterLast()) {
 			String address = cursor.getString(0);
@@ -105,6 +109,7 @@ class DBHelper extends SQLiteOpenHelper {
 		}
 		
 		cursor.close();
+		db.close();
 		return results;
 	}
 }

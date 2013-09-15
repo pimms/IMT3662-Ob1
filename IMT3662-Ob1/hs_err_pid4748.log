@@ -1,0 +1,81 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:3494), pid=4748, tid=2628
+#  Error: ShouldNotReachHere()
+#
+# JRE version: 6.0_43-b01
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (20.14-b01 mixed mode windows-amd64 compressed oops)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000000062c000):  JavaThread "Unknown thread" [_thread_in_vm, id=2628, stack(0x0000000001f70000,0x0000000002070000)]
+
+Stack: [0x0000000001f70000,0x0000000002070000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x000000000062c000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=2628, stack(0x0000000001f70000,0x0000000002070000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x0000000000400000 - 0x000000000042f000 	C:\Program Files\Eclipse\eclipse\bin\javaw.exe
+0x000007fb2ccf0000 - 0x000007fb2ceb0000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x000007fb295e0000 - 0x000007fb29716000 	C:\WINDOWS\system32\KERNEL32.DLL
+0x000007fb29030000 - 0x000007fb29123000 	C:\WINDOWS\system32\KERNELBASE.dll
+0x000007fb2be60000 - 0x000007fb2bf3e000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x000007fb29490000 - 0x000007fb295dc000 	C:\WINDOWS\system32\USER32.dll
+0x000007fb2ba20000 - 0x000007fb2bac5000 	C:\WINDOWS\system32\msvcrt.dll
+0x000007fb2be10000 - 0x000007fb2be58000 	C:\WINDOWS\SYSTEM32\sechost.dll
+0x000007fb29e60000 - 0x000007fb29fa5000 	C:\WINDOWS\system32\RPCRT4.dll
+0x000007fb2b580000 - 0x000007fb2b6c1000 	C:\WINDOWS\system32\GDI32.dll
+0x000007fb29450000 - 0x000007fb29489000 	C:\WINDOWS\system32\IMM32.DLL
+0x000007fb2b730000 - 0x000007fb2b845000 	C:\WINDOWS\system32\MSCTF.dll
+0x000000006d810000 - 0x000000006dfcc000 	C:\Program Files\Eclipse\eclipse\bin\server\jvm.dll
+0x000007fb238c0000 - 0x000007fb238e0000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x000007fb23880000 - 0x000007fb238b3000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x000007fb29190000 - 0x000007fb291df000 	C:\WINDOWS\SYSTEM32\cfgmgr32.dll
+0x000007fb293c0000 - 0x000007fb293e2000 	C:\WINDOWS\system32\DEVOBJ.dll
+0x000000006d780000 - 0x000000006d78e000 	C:\Program Files\Eclipse\eclipse\bin\verify.dll
+0x000000006d3b0000 - 0x000000006d3d7000 	C:\Program Files\Eclipse\eclipse\bin\java.dll
+0x000000006d7d0000 - 0x000000006d7e2000 	C:\Program Files\Eclipse\eclipse\bin\zip.dll
+0x000007fb2c010000 - 0x000007fb2c017000 	C:\WINDOWS\system32\PSAPI.DLL
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 -Xbootclasspath:C:\eclipse\sdk\platforms\android-18\android.jar 
+java_command: org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 50426 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -classNames pimms.oblig1.test.AllTests
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;ommonProgramFiles\Microsoft Shared\Windows Live;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\bin;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files (x86)\Visual Leak Detector\bin\Win32;C:\Program Files (x86)\Visual Leak Detector\bin\Win64;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\VisualSVN\bin;C:\Program Files\Java\jdk1.6.0_43\bin;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Negatory Assembly Studio 2.0\Assemblers\Bin
+USERNAME=Pimms
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 30 Stepping 5, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 8 , 64 bit Build 9200 
+
+CPU:total 8 (4 cores per cpu, 2 threads per core) family 6 model 30 stepping 5, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht
+
+Memory: 4k page, physical 8386612k(5409660k free), swap 16775220k(12821420k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (20.14-b01) for windows-amd64 JRE (1.6.0_43-b01), built on Mar  1 2013 01:52:33 by "java_re" with MS VC++ 8.0 (VS2005)
+
+time: Sun Sep 15 11:29:02 2013
+elapsed time: 0 seconds
+

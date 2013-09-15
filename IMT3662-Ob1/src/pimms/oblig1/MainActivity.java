@@ -63,11 +63,11 @@ public class MainActivity 	extends Activity
     	switch (item.getItemId()) {
     	case R.id.menu_main_list:
     		displayHistoryList();
-    		break;
+    		return true;
     		
     	case R.id.menu_main_map:
     		displayHistoryMap();
-    		break;
+    		return true;
     	}
     	
     	return false;
